@@ -1,0 +1,48 @@
+﻿using BookStore.Models.DTOs.Book;
+using BookStore.Models.Entities;
+
+namespace BookStore.Mappers
+{
+    public static class BookMappers
+    {
+        public static BookDTO ToBookDTO(this Book bookModel)
+        {
+            return new BookDTO
+            {
+                Id = bookModel.Id,
+                Title = bookModel.Title,
+                Genre = bookModel.Genre,
+                Price = bookModel.Price,
+                Description = bookModel.Description,
+                AuthorId = bookModel.AuthorId,
+                AuthorName = bookModel.AuthorName,
+                BookImage = bookModel.BookImage,
+                Reviews = bookModel.Reviews.Select(r => r.ToReviewDTO()).ToList()
+            };
+        }
+        public static Book ToBookFromCreateDTO(this CreateBookRequestDTO bookDTO)
+        {
+            return new Book
+            {
+                Title = bookDTO.Title,
+                Genre = bookDTO.Genre,
+                Description = bookDTO.Description,
+                Price = bookDTO.Price,
+                AuthorId= bookDTO.AuthorId,
+                AuthorName = bookDTO.AuthorName,
+                BookImage = null
+            };
+        }
+        public static Book ToBookFromUpdateDTO(this UpdateBookRequestDTO bookDTO)
+        {
+            return new Book
+            {
+                Title = bookDTO.Title,
+                Genre = bookDTO.Genre,
+                Description = bookDTO.Description,
+                Price = bookDTO.Price,
+                AuthorId = bookDTO.AuthorId,
+            };
+        }
+    }
+}
